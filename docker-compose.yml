@@ -1,0 +1,26 @@
+version: '3.7'
+services:
+  web:
+    #image: php:7.4.7-apache
+    build:
+      context: ./src
+      dockerfile: Dockerfile
+    container_name: php74
+    depends_on:
+      - db
+    volumes:
+    - ./src:/var/www/
+    ports:
+      - 80:80
+  db:
+    container_name: mysql57
+    image: library/mysql:5.7.30
+#    command: --default-authentication-plugin=mysql_native_password
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: test_db
+      MYSQL_USER: devuser
+      MYSQL_PASSWORD: devpass
+    ports:
+      - 6033:3306
